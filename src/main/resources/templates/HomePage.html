@@ -1,20 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> <!-- xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
+<!--      layout:decorate="~{header.html}">-->
 <head>
     <meta charset="UTF-8">
-    <title>HomePage</title>
+    <title>Home Page</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link rel="stylesheet" href="/static/css/HomePage.css">
+    <link rel="stylesheet" href="/static/css/headerStyle.css">
 
 </head>
 <body>
-<h3>UNDER CONSTRUCTION</h3>
+<div th:replace="fragments/header :: header"></div>
+
+<div style="justify-content: center; display: grid; margin-top: 10px">
+    <h5>UNDER CONSTRUCTION</h5>
+</div>
 
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -33,57 +39,171 @@
 
                 <div class="d-flex">
                     <div class="temp-details flex-grow-1">
+
                         <p class="my-1">
                             <img src="https://i.imgur.com/B9kqOzp.png" height="25px" >
                             <span id="weatherWind" style="color: black"> 40 km/h  </span>
                         </p>
 
                         <p class="my-1">
-<!--                            <i class="fa fa-tint mr-2" aria-hidden="true"></i>-->
                             <img src="https://cdn-icons-png.flaticon.com/512/1582/1582886.png" height="25px">
                             <span id="weatherHumidity" style="color: black"> 84% </span>
                         </p>
 
                         <p class="my-1">
-                            <img src="https://cdn4.iconfinder.com/data/icons/electric-vehicle-set/25/Air_Pressure-512.png" height="25px" >
+                            <img id="weatherPressureIMG" src="https://cdn4.iconfinder.com/data/icons/electric-vehicle-set/25/Air_Pressure-512.png" height="25px" >
                             <span id="weatherPressure" style="color: black"> 1013hPa </span>
                         </p>
 
-<!--                        <p class="my-1">-->
-<!--                            <img src="https://i.imgur.com/wGSJ8C5.png" height="25px" >-->
-<!--                            <span> 0.2h </span>-->
-<!--                        </p>-->
                     </div>
 
                     <div>
                         <img id="weatherIcon" src="https://i.imgur.com/Qw7npIg.png" width="100px">
                     </div>
+                </div>
+
+                <div id="weatherWeek">
+                <div class="row d-flex px-3 mt-auto">
+                    <div id="DivDayName0" class="d-flex flex-column block first-block active" onclick="getWeatherFromAPI()">
+                        <small id="dayName0" class="text-muted mb-0">0</small>
+                        <h6 id="dayTemp0"><strong>?</strong></h6>
+                    </div>
+                    <div id="DivDayName1" class="d-flex flex-column block" onclick="getWeatherForecast(1)">
+                        <small id="dayName1" class="text-muted mb-0">1</small>
+                        <h6 id="dayTemp1"><strong>?</strong></h6>
+                    </div>
+                    <div id="DivDayName2" class="d-flex flex-column block" onclick="getWeatherForecast(2)">
+                        <small id="dayName2" class="text-muted mb-0">2</small>
+                        <h6 id="dayTemp2"><strong>?</strong></h6>
+                    </div>
+                    <div class="d-flex flex-column block" onclick="FreeAPIAlert()">
+                        <small id="dayName3" class="text-muted mb-0">3</small>
+                        <h6 id="dayTemp3"><strong>?</strong></h6>
+                    </div>
+                    <div class="d-flex flex-column block last-block" onclick="FreeAPIAlert()">
+                        <small id="dayName4" class="text-muted mb-0">4</small>
+                        <h6 id="dayTemp4"><strong>?</strong></h6>
+                    </div>
+                </div>
 
                 </div>
             </div>
+
         </div>
+
+
     </div>
 </div>
 
-<form id="SearchForm">
-    <input id="searchInput" type="text" placeholder="Şehir.." required name="search">
-    <button type="submit"><i class="fa fa-search"></i>search</button>
+
+
+<form id="SearchForm" class="container">
+
+
+        <div class="row height d-flex justify-content-center align-items-center">
+
+            <div class="col-md-6">
+
+                <div class="form">
+                    <i class="fa fa-search"></i>
+                    <input id="searchInput" type="text" class="form-control form-input" placeholder="Search anything...">
+                    <span class="left-pan"><i class="fa fa-microphone"></i></span>
+                    <button type="submit"><i class="fa"></i>search</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
 </form>
 
 
 
+
+
 <script>
+    document.getElementById("weatherWeek").style.display="none"
+
+    function days(data){
+
+        for (let i=0; i<5; i++){
+            let date = new Date();
+            date.setDate(date.getDate() + i);
+            let dayName = new Intl.DateTimeFormat('en', {weekday: 'short'}).format(date).toUpperCase();
+
+            switch (i){
+                case 0:
+                    $("#dayName0").text(dayName);
+                    $("#dayTemp0").text(parseFloat(data.current.temp_c) + " °C");
+                    break;
+                case 1:
+                    $("#dayName1").text(dayName)
+                    $("#dayTemp1").text(parseFloat(data.forecast.forecastday[1].day.avgtemp_c) + " °C");
+                    break;
+                case 2:
+                    $("#dayName2").text(dayName)
+                    $("#dayTemp2").text(parseFloat(data.forecast.forecastday[2].day.avgtemp_c) + " °C");
+                    break;
+                case 3:
+                    $("#dayName3").text(dayName)
+                    break;
+                case 4:
+                    $("#dayName4").text(dayName)
+                    break;
+            }
+        }
+    }
+
     $('#searchInput').val("Turkey")
     getWeatherFromAPI()
 
-    function getWeatherFromAPI(){
+    function getWeatherForecast(day){
+        // document.getElementById("SearchForm").style.display="none"
         $.ajax({
-            url: "https://api.weatherapi.com/v1/current.json?key=86c191b77d0f47e78bb175729220807 &q=" + $("#searchInput").val(),
+            url: "https://api.weatherapi.com/v1/forecast.json?key=86c191b77d0f47e78bb175729220807 &days=3 &q=" + $("#searchInput").val(),
             success: function (data, status, xhr){
                 console.log(data);
 
                 $("#weatherCity").text(data.location.name + " / " + data.location.country)
-                $("#weatherTime").text(data.current.last_updated + " (Last Update)")
+                $("#weatherTime").text(data.forecast.forecastday[day].date)
+                $("#weatherTemp").text(parseFloat(data.forecast.forecastday[day].day.avgtemp_c) + " °C")
+                $("#weatherStatus").text(data.forecast.forecastday[day].day.condition.text)
+                $("#weatherWind").text(data.forecast.forecastday[day].day.maxwind_mph + "km/h (Max)")
+                $("#weatherHumidity").text(data.forecast.forecastday[day].day.avghumidity + "% (Average)")
+                $("#weatherPressure").text(data.forecast.forecastday[day].hour[12].pressure_mb + " hPa (At 12AM)")
+                $("#weatherIcon").attr('src', data.forecast.forecastday[day].day.condition.icon)
+
+                switch (day){
+                    case 1:
+                        document.getElementById("DivDayName1").classList.add("active")
+                        document.getElementById("DivDayName0").classList.remove("active")
+                        document.getElementById("DivDayName2").classList.remove("active")
+                        break;
+                    case 2:
+                        document.getElementById("DivDayName2").classList.add("active")
+                        document.getElementById("DivDayName0").classList.remove("active")
+                        document.getElementById("DivDayName1").classList.remove("active")
+                        break;
+                }
+            }
+        });
+    }
+
+    function getWeatherFromAPI(){
+        document.getElementById("SearchForm").style.display=""
+
+        document.getElementById("DivDayName0").classList.add("active")
+        document.getElementById("DivDayName1").classList.remove("active")
+        document.getElementById("DivDayName2").classList.remove("active")
+        $.ajax({
+            url: "https://api.weatherapi.com/v1/forecast.json?key=86c191b77d0f47e78bb175729220807 &days=3 &q=" + $("#searchInput").val(),
+            success: function (data, status, xhr){
+                console.log(data);
+
+                $("#weatherCity").text(data.location.name + " / " + data.location.country)
+                $("#weatherTime").text(data.current.last_updated + " (Last Updated)")
                 $("#weatherTemp").text(parseFloat(data.current.temp_c) + " °C")
                 $("#weatherStatus").text(data.current.condition.text)
                 $("#weatherWind").text(data.current.wind_mph + "km/h")
@@ -92,6 +212,22 @@
 
                 $("#weatherIcon").attr('src', data.current.condition.icon)
 
+                days(data);
+                document.getElementById("weatherWeek").style.display=""
+
+            },
+            error: function (data, status, xhr){
+                $("#weatherCity").text("?")
+                $("#weatherTime").text("?")
+                $("#weatherTemp").text("?")
+                $("#weatherStatus").text("Couldn't found any city with that name...")
+                $("#weatherWind").text("?")
+                $("#weatherHumidity").text("?")
+                $("#weatherPressure").text("?")
+
+                $("#weatherIcon").attr('src', "")
+
+                document.getElementById("weatherWeek").style.display="none"
             }
         });
     }
@@ -100,6 +236,10 @@
         event.preventDefault();
         getWeatherFromAPI();
     });
+
+    function FreeAPIAlert(){
+        alert("You Can't view this information due to free API limitations")
+    }
 
 </script>
 

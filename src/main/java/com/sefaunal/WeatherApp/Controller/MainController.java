@@ -1,6 +1,7 @@
 package com.sefaunal.WeatherApp.Controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -13,7 +14,8 @@ public class MainController {
     }
 
     @GetMapping("/home")
-    public String homePage(){
+    public String homePage(Model model){
+        model.addAttribute("user", null);
         return "HomePage";
     }
 }

@@ -7,3 +7,5 @@ I will update the readme file once i am done with this project.
 A screenshot of the home page (It's not the final version thus subject to changes)
 
 ![Ekran görüntüsü 2022-07-08 205348](https://user-images.githubusercontent.com/83312431/178044953-9a21dc2a-4ba8-433c-9b4a-ce63fe693667.png)
+
+![](../2022-07-09 14 40 42.png)

@@ -10,19 +10,19 @@ html, body{
 }
 
 body {
-    background-color: #a5a5b1;
-    display: grid;
+    background-color: #A5A5B1;
+    /*display: grid;*/
     place-items: center;
-
 }
 
 .card {
-    background-color: #ffffff;
+    margin-top: 50px;
+    margin-bottom: 25px;
+    background-color: #FFFFFF;
     border-radius: 50px;
     color: #6f707d;
     font-family: 'Marcellus', serif;
 }
-
 #weatherTemp{
     font-size: 55px;
     color: #2b304d;
@@ -37,10 +37,6 @@ body {
     font-size: 12px;
 }
 
-.fa{
-    color: #a5a5b1
-}
-
 .my-1{
     padding-bottom: 5px;
 }
@@ -48,3 +44,90 @@ body {
 *:focus{
     outline: none;
 }
+
+/*-----------------------------*/
+.block {
+    width: 20%;
+    background-color: #D6EFED;
+    cursor: pointer;
+    padding: 6px 0px 3px 15px; /* top / right / bottom / left */
+
+}
+
+.first-block {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.last-block {
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.block.active, .block:hover {
+    background-color: #C9BBCF;
+}
+
+.city-symbol {
+    width: 200px;
+    height: 250px;
+}
+
+.large-font {
+    font-size: 60px;
+}
+
+.symbol-img {
+    width: 40px;
+    height: 40px;
+}
+
+
+
+/*------------------------------*/
+.form{
+
+    position: relative;
+}
+
+.form .fa-search{
+
+    position: absolute;
+    top:20px;
+    left: 20px;
+    color: #9ca3af;
+
+}
+
+.form span{
+
+    position: absolute;
+    right: 17px;
+    top: 13px;
+    padding: 2px;
+    border-left: 1px solid #d1d5db;
+
+}
+
+.left-pan{
+    padding-left: 7px;
+}
+
+.left-pan i{
+
+    padding-left: 10px;
+}
+
+.form-input{
+
+    height: 55px;
+    text-indent: 33px;
+    border-radius: 10px;
+}
+
+.form-input:focus{
+
+    box-shadow: none;
+    border:none;
+}
+
