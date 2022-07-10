@@ -1,16 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Marcellus&display=swap');
 
-html, body{
-    height: 100%;
-}
-
 *{
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
+    font-family: 'Marcellus', serif;
 }
 
 body {
-    background-color: #A5A5B1;
+    /*background-color: #343A46;*/
     /*display: grid;*/
     place-items: center;
 }
@@ -46,6 +43,9 @@ body {
 }
 
 /*-----------------------------*/
+.container-fluid{
+    margin-top: 75px;
+}
 .block {
     width: 20%;
     background-color: #D6EFED;
@@ -81,53 +81,3 @@ body {
     width: 40px;
     height: 40px;
 }
-
-
-
-/*------------------------------*/
-.form{
-
-    position: relative;
-}
-
-.form .fa-search{
-
-    position: absolute;
-    top:20px;
-    left: 20px;
-    color: #9ca3af;
-
-}
-
-.form span{
-
-    position: absolute;
-    right: 17px;
-    top: 13px;
-    padding: 2px;
-    border-left: 1px solid #d1d5db;
-
-}
-
-.left-pan{
-    padding-left: 7px;
-}
-
-.left-pan i{
-
-    padding-left: 10px;
-}
-
-.form-input{
-
-    height: 55px;
-    text-indent: 33px;
-    border-radius: 10px;
-}
-
-.form-input:focus{
-
-    box-shadow: none;
-    border:none;
-}
-

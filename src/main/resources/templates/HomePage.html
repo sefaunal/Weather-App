@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en"> <!-- xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
-<!--      layout:decorate="~{header.html}">-->
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -11,16 +12,16 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
+
+    <link rel="stylesheet" href="/static/css/SidebarF.css">
     <link rel="stylesheet" href="/static/css/HomePage.css">
-    <link rel="stylesheet" href="/static/css/headerStyle.css">
+    <link rel="icon" href="/static/favicon.png">
 
 </head>
 <body>
-<div th:replace="fragments/header :: header"></div>
-
-<div style="justify-content: center; display: grid; margin-top: 10px">
-    <h5>UNDER CONSTRUCTION</h5>
-</div>
+<div th:replace="fragments/SidebarFragment :: sidebar"></div>
 
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -97,27 +98,27 @@
 
 
 
-<form id="SearchForm" class="container">
+<!--<form id="SearchForm" class="container">-->
 
 
-        <div class="row height d-flex justify-content-center align-items-center">
+<!--        <div class="row height d-flex justify-content-center align-items-center">-->
 
-            <div class="col-md-6">
+<!--            <div class="col-md-6">-->
 
-                <div class="form">
-                    <i class="fa fa-search"></i>
-                    <input id="searchInput" type="text" class="form-control form-input" placeholder="Search anything...">
-                    <span class="left-pan"><i class="fa fa-microphone"></i></span>
-                    <button type="submit"><i class="fa"></i>search</button>
+<!--                <div class="form">-->
+<!--                    <i class="fa fa-search"></i>-->
+<!--                    <input id="searchInput" type="text" class="form-control form-input" placeholder="Search anything...">-->
+<!--                    <span class="left-pan"><i class="fa fa-microphone"></i></span>-->
+<!--                    <button type="submit"><i class="fa"></i>search</button>-->
 
-                </div>
+<!--                </div>-->
 
-            </div>
+<!--            </div>-->
 
-        </div>
+<!--        </div>-->
 
 
-</form>
+<!--</form>-->
 
 
 
@@ -160,7 +161,7 @@
     getWeatherFromAPI()
 
     function getWeatherForecast(day){
-        // document.getElementById("SearchForm").style.display="none"
+        document.getElementById("SearchForm").style.display="none"
         $.ajax({
             url: "https://api.weatherapi.com/v1/forecast.json?key=86c191b77d0f47e78bb175729220807 &days=3 &q=" + $("#searchInput").val(),
             success: function (data, status, xhr){
@@ -243,5 +244,6 @@
 
 </script>
 
+<script src="/static/js/SidebarF.js"></script>
 </body>
 </html>
