@@ -5,6 +5,8 @@ import com.sefaunal.WeatherApp.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     @Autowired
@@ -22,5 +24,9 @@ public class UserService {
 
     public User findByUserMail(String mail){
         return userRepository.findByUserMail(mail);
+    }
+
+    public List<User> findByUserRole(String role){
+        return userRepository.findByUserRole(role);
     }
 }

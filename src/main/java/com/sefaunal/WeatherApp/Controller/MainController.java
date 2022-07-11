@@ -23,7 +23,7 @@ public class MainController {
     UserService userService;
 
     @GetMapping("/")
-    public RedirectView redirectHome(){
+    public RedirectView redirectHome(Principal principal){
         return new RedirectView("/home");
     }
 
