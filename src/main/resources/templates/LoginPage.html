@@ -21,7 +21,7 @@
 </head>
 
 <body style="background-image: url(/static/images/Background.jpg)">
-<div th:replace="fragments/SidebarFragment :: headerOnly"></div>
+<div th:replace="fragments/Sidebar :: headerOnly"></div>
 <div class="cardtoFlip">
     <div class="card__inner">
         <div id="frontCard" class="card__face card__face--front">
@@ -39,6 +39,15 @@
                                 </div>
 
                                 <form name="f" th:action="@{/login}" method="post" class="signin-form">
+
+                                    <div th:if="${param.error}" class="">
+                                        Wrong Email or Password!
+                                    </div>
+
+                                    <div th:if="${param.logout}">
+                                        Successfully Logged Out!
+                                    </div>
+
                                     <div class="form-group mt-3">
                                         <input name="username" type="email" class="form-control" required>
                                         <label class="form-control-placeholder">Mail</label>
@@ -132,7 +141,7 @@
 <script src="/static/js/LoginPage/LoginPage.js"></script>
 <script src="/static/js/LoginPage/PasswordToggle.js"></script>
 
-<script type="module" src="/static/js/FirebaseConnection.js"></script>
+<script type="module" src="/static/js/LoginPage/Firebase.js"></script>
 <script type="module" src="/static/js/LoginPage/Register.js"></script>
 
 </body>

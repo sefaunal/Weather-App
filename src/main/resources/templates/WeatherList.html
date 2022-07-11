@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="/static/css/SidebarF.css">
+    <link rel="stylesheet" href="/static/css/WeatherList.css">
+
+    <link rel="icon" href="/static/images/favicon.png">
+
+    <title>Weather Records</title>
+  </head>
+  <body>
+  <div th:replace="fragments/Sidebar :: sidebar"></div>
+
+  <div class="content">
+    
+    <div class="container">
+      <h2 class="mb-5">Weather Records</h2>
+      
+      <div class="table-responsive">
+
+        <table class="table table-striped custom-table">
+          <thead>
+            <tr>
+              
+              <th scope="col"></th>
+              <th scope="col">Status</th>
+              <th scope="col">Temp</th>
+              <th scope="col">Wind</th>
+              <th scope="col">Humidity</th>
+              <th scope="col">Pressure</th>
+              <th scope="col">City</th>
+              <th scope="col">Country</th>
+              <th scope="col">Date</th>
+              <th scope="col"></th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr scope="row" th:each="weather : ${weatherList}">
+              <td> <img src="//cdn.weatherapi.com/weather/64x64/day/116.png" alt="" th:src="${weather.getWeatherIconURL()}"> </td>
+              <td th:text="${weather.getWeatherStatus()}">Rainy</td>
+              <td th:text="${weather.getWeatherTemp()} + ' °C'">25 °C</td>
+              <td th:text="${weather.getWeatherWind()} + ' KM/h'">10 KM/h</td>
+              <td th:text="${weather.getWeatherHumidity()} + ' %'">50%</td>
+              <td th:text="${weather.getWeatherPressure()} + ' hPa'">1000 Pha</td>
+              <td th:text="${weather.getWeatherCity()}">Ankara</td>
+              <td th:text="${weather.getWeatherCountry()}">Turkey</td>
+              <td th:text="${weather.getWeatherDate()}">11.07.2022 17:22</td>
+              <td><a th:href="@{/home/weatherRecords/delete(weatherID=${weather.getWeatherID()})}" class="more">DELETE</a></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="/static/js/SidebarF.js"></script>
+  </body>
+</html>

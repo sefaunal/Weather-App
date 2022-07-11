@@ -97,7 +97,7 @@ function getWeatherForecast(day){
     $.ajax({
         url: "https://api.weatherapi.com/v1/forecast.json?key=86c191b77d0f47e78bb175729220807 &days=3 &q=" + $("#searchInput").val(),
         success: function (data, status, xhr){
-            console.log(data);
+            // console.log(data);
 
             $("#weatherCity").text(data.location.name + " / " + data.location.country)
             $("#weatherTime").text(data.forecast.forecastday[day].date)

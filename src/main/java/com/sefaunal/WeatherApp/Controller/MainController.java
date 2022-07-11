@@ -23,8 +23,13 @@ public class MainController {
     UserService userService;
 
     @GetMapping("/")
-    public RedirectView redirectHome(Principal principal){
+    public RedirectView redirectHome(){
         return new RedirectView("/home");
+    }
+
+    @GetMapping("/error403")
+    public String Error403(){
+        return "Error403";
     }
 
     @GetMapping("/home")
@@ -43,12 +48,7 @@ public class MainController {
     public String LoginPage(HttpServletResponse httpServletResponse, Principal principal){
         if (principal != null){
             try {
-                User user = userService.findByUserMail(principal.getName());
-                if (user.getUserRole().equals("ADMIN")){
-                    //TODO
-                }else {
-                    httpServletResponse.sendRedirect("/home");
-                }
+                httpServletResponse.sendRedirect("/home");
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }

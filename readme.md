@@ -1,8 +1,8 @@
 # Weather-App
 
 In this project i aim to create a website where you can get the weather info of a city' from an api and save that info (saving part will be optional of course and will require an account to do so).
-I will be using HTML-CSS for the front-end, Java Springboot for the back-end, JQuery for fething info from api, MySQL for saving infos to the database and maybe Firebase Storage for storing images (like profile image) but i am not sure if i can do so about the last one.
-I will update the readme file once i am done with this project.
+I will be using HTML-CSS for the front-end, Java Springboot for the back-end, JQuery for fething info from api, MySQL for saving infos to the database and Firebase Storage for storing user's profile images.
+I will update this readme file once I am done with the project.
 
 A screenshot of the home page (It's not the final version thus subject to changes)
 
@@ -15,3 +15,6 @@ A screenshot of the home page (It's not the final version thus subject to change
 ![2](https://user-images.githubusercontent.com/83312431/178130289-feb47e74-e840-4581-9a3a-db6569aaba3b.png)
 
 ![image](https://user-images.githubusercontent.com/83312431/178167755-84a91116-8396-4acd-a9c7-8489f4ee35d2.png)
+
+![image](https://user-images.githubusercontent.com/83312431/178305918-e639365b-0e98-45a3-8ea1-3f7917edab6b.png)
+
