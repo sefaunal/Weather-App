@@ -1,12 +1,26 @@
 package com.sefaunal.WeatherApp.Controller;
 
+import com.sefaunal.WeatherApp.Model.User;
+import com.sefaunal.WeatherApp.Service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
+import java.time.LocalDateTime;
 
 @Controller
 public class MainController {
+    @Autowired
+    UserService userService;
 
     @GetMapping("/")
     public RedirectView redirectHome(){
@@ -14,8 +28,52 @@ public class MainController {
     }
 
     @GetMapping("/home")
-    public String homePage(Model model){
-        model.addAttribute("user", null);
-        return "HomePage";
+    public ModelAndView homePage(Model model, Principal principal){
+        if (principal == null){
+            model.addAttribute("user", null);
+        }
+        else {
+            User user = userService.findByUserMail(principal.getName());
+            model.addAttribute("user", user);
+        }
+        return new ModelAndView("HomePage");
+    }
+
+    @GetMapping("/login")
+    public String LoginPage(HttpServletResponse httpServletResponse, Principal principal){
+        if (principal != null){
+            try {
+                User user = userService.findByUserMail(principal.getName());
+                if (user.getUserRole().equals("ADMIN")){
+                    //TODO
+                }else {
+                    httpServletResponse.sendRedirect("/home");
+                }
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
+        return "LoginPage";
+    }
+
+    @PostMapping("/register")
+    public @ResponseBody Boolean createAccount(@RequestParam String userName, @RequestParam String userPassword, @RequestParam String userMail, @RequestParam String userImageURL){
+        User user = new User();
+        user.setUserMail(userMail);
+        user.setUserName(userName);
+        user.setUserPassword(userPassword);
+        user.setUserImageURL(userImageURL);
+        user.setUserRole("USER");
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+        user.setUserCreationDate(localDateTime);
+
+        try {
+            user.setUserPassword(new BCryptPasswordEncoder().encode(user.getUserPassword()));
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        return userService.createUser(user);
     }
 }

@@ -23,14 +23,19 @@
     <nav class="sidebar close">
         <header>
             <div class="image-text">
-                <span class="image">
-                    <img src="/static/favicon.png" alt="">
+                <span class="image" th:if="${user == null}">
+                    <img src="/static/images/favicon.png" alt="">
+                </span>
+
+                <span class="image" th:if="${user != null}">
+                    <img src="/static/images/favicon.png" alt="" th:src="${user.getUserImageURL()}">
                 </span>
 
                 <div class="text logo-text">
                     <span class="name">Welcome</span>
-                    <span class="profession">*Your Name*</span>
+                    <span class="profession" th:if="${user != null}" th:text="${user.getUserName()}">*Your Name*</span>
                 </div>
+
             </div>
 
             <i class='bx bx-chevron-right toggle'></i>
@@ -46,7 +51,7 @@
                 </li>
                 </form>
 
-                <ul class="menu-links">
+                <ul class="menu-links" th:if="${user != null}">
                     <li>
                         <a href="/home">
                             <i class='bx bx-home-alt icon' ></i>
@@ -93,13 +98,13 @@
             </div>
 
             <div class="bottom-content">
-                <li class="">
+                <li class="" th:if="${user == nul}">
                     <a href="/login">
                         <i class='bx bx-log-in icon' ></i>
                         <span class="text nav-text">Login</span>
                     </a>
                 </li>
-                <li class="">
+                <li class="" th:if="${user != nul}">
                     <a href="/logout">
                         <i class='bx bx-log-out icon' ></i>
                         <span class="text nav-text">Logout</span>
@@ -110,10 +115,10 @@
 
     </nav>
 
-    <section class="home">
+    <section class="home" th:fragment="headerOnly">
         <div class="container-navbar">
             <div class="navbar">
-                <a class="logo" href="#">Weather App</a>
+                <a class="logo" href="/home">Weather App</a>
             </div>
         </div>
     </section>
