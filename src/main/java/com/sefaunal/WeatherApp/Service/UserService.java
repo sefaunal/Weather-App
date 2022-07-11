@@ -29,4 +29,12 @@ public class UserService {
     public List<User> findByUserRole(String role){
         return userRepository.findByUserRole(role);
     }
+
+    public void deleteUser(Long userID){
+        userRepository.deleteById(userID);
+    }
+
+    public User findById(Long userID){
+        return userRepository.findById(userID).get();
+    }
 }

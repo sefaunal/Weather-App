@@ -36,12 +36,17 @@ public class MainController {
     public ModelAndView homePage(Model model, Principal principal){
         if (principal == null){
             model.addAttribute("user", null);
+            return new ModelAndView("HomePage");
         }
         else {
             User user = userService.findByUserMail(principal.getName());
-            model.addAttribute("user", user);
+            if (user.getUserRole().equals("BANNED")){
+                return new ModelAndView("ErrorBan");
+            }else {
+                model.addAttribute("user", user);
+                return new ModelAndView("HomePage");
+            }
         }
-        return new ModelAndView("HomePage");
     }
 
     @GetMapping("/login")

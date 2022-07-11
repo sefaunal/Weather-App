@@ -18,3 +18,4 @@ A screenshot of the home page (It's not the final version thus subject to change
 
 ![image](https://user-images.githubusercontent.com/83312431/178305918-e639365b-0e98-45a3-8ea1-3f7917edab6b.png)
 
+![image](https://user-images.githubusercontent.com/83312431/178361360-a93e699c-9b9e-47e6-b470-bcd0d4be0692.png)

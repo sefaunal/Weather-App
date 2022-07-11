@@ -86,6 +86,7 @@ function getWeatherFromAPI(){
             $("#weatherIcon").attr('src', "")
 
             document.getElementById("weatherWeek").style.display="none"
+            document.getElementById("saveWeatherDIV").style.display='none';
         }
     });
 }

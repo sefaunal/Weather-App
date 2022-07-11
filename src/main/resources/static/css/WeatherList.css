@@ -86,3 +86,7 @@ h2 {
     margin-bottom: 15px; }
     .custom-table .box td, .custom-table .box th {
       border: none !important; }
+
+.custom-table tbody tr:hover td .more2, .custom-table tbody tr:focus td .more2 {
+  color: green; }
+
