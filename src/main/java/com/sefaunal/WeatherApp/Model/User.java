@@ -4,9 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,5 +28,8 @@ public class User {
     private LocalDateTime userCreationDate;
 
     private String userImageURL;
+
+    @OneToMany(targetEntity = Weather.class, cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Weather> weatherList;
 
 }
