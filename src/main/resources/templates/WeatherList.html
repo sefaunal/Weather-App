@@ -10,7 +10,6 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
-    <!-- Style -->
     <link rel="stylesheet" href="/static/css/SidebarF.css">
     <link rel="stylesheet" href="/static/css/WeatherList.css">
 
@@ -33,14 +32,14 @@
             <tr>
               
               <th scope="col"></th>
-              <th scope="col">Status</th>
-              <th scope="col">Temp</th>
-              <th scope="col">Wind</th>
-              <th scope="col">Humidity</th>
-              <th scope="col">Pressure</th>
-              <th scope="col">City</th>
-              <th scope="col">Country</th>
-              <th scope="col">Date</th>
+              <th scope="col"><a th:href="@{'/home/weatherRecords?page=' + ${currentPage} + '&sortby=status&sortdir=' + ${reverseSortDir}}">Status</a></th>
+              <th scope="col"><a th:href="@{'/home/weatherRecords?page=' + ${currentPage} + '&sortby=temp&sortdir=' + ${reverseSortDir}}">Temp</a></th>
+              <th scope="col"><a th:href="@{'/home/weatherRecords?page=' + ${currentPage} + '&sortby=wind&sortdir=' + ${reverseSortDir}}">Wind</a></th>
+              <th scope="col"><a th:href="@{'/home/weatherRecords?page=' + ${currentPage} + '&sortby=humidity&sortdir=' + ${reverseSortDir}}">Humidity</a></th>
+              <th scope="col"><a th:href="@{'/home/weatherRecords?page=' + ${currentPage} + '&sortby=pressure&sortdir=' + ${reverseSortDir}}">Pressure</a></th>
+              <th scope="col"><a th:href="@{'/home/weatherRecords?page=' + ${currentPage} + '&sortby=city&sortdir=' + ${reverseSortDir}}">City</a></th>
+              <th scope="col"><a th:href="@{'/home/weatherRecords?page=' + ${currentPage} + '&sortby=country&sortdir=' + ${reverseSortDir}}">Country</a></th>
+              <th scope="col"><a th:href="@{'/home/weatherRecords?page=' + ${currentPage} + '&sortby=date&sortdir=' + ${reverseSortDir}}">Date</a></th>
               <th scope="col"></th>
 
             </tr>
@@ -56,17 +55,33 @@
               <td th:text="${weather.getWeatherCity()}">Ankara</td>
               <td th:text="${weather.getWeatherCountry()}">Turkey</td>
               <td th:text="${weather.getWeatherDate()}">11.07.2022 17:22</td>
-              <td><a th:href="@{/home/weatherRecords/delete(weatherID=${weather.getWeatherID()})}" class="more">DELETE</a></td>
+              <td><a th:href="@{'/home/weatherRecords/delete?weatherID=' + ${weather.getWeatherID()} + '&page=' + ${currentPage} + '&sortby=' + ${sortBy} + '&sortdir=' + ${sortDir}}" class="more">DELETE</a></td>
             </tr>
 
           </tbody>
         </table>
+
+        <footer style="color: white">
+          Total Items [[${totalItems}]] : Page [[${currentPage}]] of [[${totalPages}]]
+          &nbsp; - &nbsp;
+          <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+            <a th:href="@{'/home/weatherRecords?page=' + ${i} + '&sortby=' + ${sortBy} + '&sortdir=' + ${sortDir}}">[[${i}]]</a>
+            &nbsp;
+          </span>
+        </footer>
+
       </div>
 
     </div>
 
   </div>
 
+
+  <script>
+    $("#SearchForm").submit(function (event) {
+      event.preventDefault();
+    });
+  </script>
   <script src="/static/js/SidebarF.js"></script>
   </body>
 </html>

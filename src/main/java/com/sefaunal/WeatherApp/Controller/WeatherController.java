@@ -2,10 +2,10 @@ package com.sefaunal.WeatherApp.Controller;
 
 import com.sefaunal.WeatherApp.Model.User;
 import com.sefaunal.WeatherApp.Model.Weather;
-import com.sefaunal.WeatherApp.Repository.UserRepository;
 import com.sefaunal.WeatherApp.Service.UserService;
 import com.sefaunal.WeatherApp.Service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -39,27 +38,72 @@ public class WeatherController {
     }
 
     @GetMapping("/home/weatherRecords")
-    public ModelAndView weatherRecords(Principal principal, Model model){
+    public ModelAndView weatherRecords(Principal principal, Model model,
+                                       @RequestParam("page") int currentPage,
+                                       @RequestParam("sortby") String field,
+                                       @RequestParam("sortdir") String sortDir){
         User user = userService.findByUserMail(principal.getName());
 
-        List<Weather> weatherList = new ArrayList<>();
-        weatherList = weatherService.findWeatherByUser(user);
+        field = WeatherField(field);
+        Page<Weather> page = weatherService.findWithSorting(field, sortDir, currentPage, user);
+        int totalPages = page.getTotalPages();
+        long totalItems = page.getTotalElements();
+        List<Weather> weatherList = page.getContent();
+        field = WeatherFieldReverse(field);
+
+        model.addAttribute("sortBy", field);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc")?"desc":"asc");
+
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalItems", totalItems);
 
         model.addAttribute("user", user);
         model.addAttribute("weatherList", weatherList);
-
         return new ModelAndView("WeatherList");
     }
 
     @GetMapping("/home/weatherRecords/delete")
-    public RedirectView deleteWeather(Principal principal, @RequestParam Long weatherID){
+    public RedirectView deleteWeather(Principal principal, @RequestParam Long weatherID,
+                                      @RequestParam("page") int currentPage,
+                                      @RequestParam("sortby") String field,
+                                      @RequestParam("sortdir") String sortDir){
+
         User user = userService.findByUserMail(principal.getName());
         if (weatherService.findByWeatherID(weatherID).getUser() == user){
             weatherService.deleteByWeatherID(weatherID);
-            return new RedirectView("/home/weatherRecords");
+            String URL = "/home/weatherRecords?page=" + currentPage + "&sortby=" + field + "&sortdir=" + sortDir;
+            return new RedirectView(URL);
         }
         else{
             return new RedirectView("/error403");
+        }
+    }
+
+    private String WeatherField(String field){
+        switch (field){
+            case "status": return "weatherStatus";
+            case "temp": return "weatherTemp";
+            case "wind": return "weatherWind";
+            case "humidity": return "weatherHumidity";
+            case "pressure": return "weatherPressure";
+            case "city": return "weatherCity";
+            case "country": return "weatherCountry";
+            default: return "weatherDate";
+        }
+    }
+
+    private String WeatherFieldReverse(String field){
+        switch (field){
+            case "weatherStatus": return "status";
+            case "weatherTemp": return "temp";
+            case "weatherWind": return "wind";
+            case "weatherHumidity": return "humidity";
+            case "weatherPressure": return "pressure";
+            case "weatherCity": return "city";
+            case "weatherCountry": return "country";
+            default: return "date";
         }
     }
 }

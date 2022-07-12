@@ -4,6 +4,10 @@ import com.sefaunal.WeatherApp.Model.User;
 import com.sefaunal.WeatherApp.Model.Weather;
 import com.sefaunal.WeatherApp.Repository.WeatherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,5 +32,19 @@ public class WeatherService {
 
     public Weather findByWeatherID(Long weatherID){
         return weatherRepository.findById(weatherID).get();
+    }
+
+    public Page<Weather> findPage(User user, int pageNumber){
+        Pageable pageable = PageRequest.of(pageNumber - 1,5);
+
+        return weatherRepository.findAllByUser(user, pageable);
+    }
+
+    public Page<Weather> findWithSorting(String field, String direction, int pageNumber, User user){
+        Sort sort = direction.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(field).ascending() : Sort.by(field).descending();
+        Pageable pageable = PageRequest.of(pageNumber - 1, 7, sort);
+
+        return weatherRepository.findAllByUser(user, pageable);
     }
 }

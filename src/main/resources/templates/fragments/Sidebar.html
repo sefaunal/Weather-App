@@ -55,7 +55,8 @@
                     </li>
 
                     <li th:if="${user.getUserRole == 'USER'}">
-                        <a href="/home/weatherRecords">
+<!--                        <a th:href="@{/home/weatherRecords(page=1)}">-->
+                        <a th:href="@{'/home/weatherRecords?page=1&sortby=date&sortdir=desc'}">
                             <i class='bx bx-bar-chart-alt-2 icon' ></i>
                             <span class="text nav-text">My Records</span>
                         </a>
