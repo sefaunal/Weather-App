@@ -1,23 +1,54 @@
 # Weather-App
+## Features
+* API Data are being fetched with jQuery
+* Rest of the Information are displayed via Thymeleaf.
+* On Register Page - Profile Photo are being saved to Firebase Storage, Photo's URL adress & rest of the information are then saved to the MySQL Database.
+* Requests are being sent to the backend via Thymeleaf with one exception on Register Page that is jQuery.
+* On Weather Records Page (where users can see their saved weather infos), saved weather entries can be sorted by couple of things (Like weather date, country etc.) and listed. Pagination added to limit the items that listed on 1 page to 7.
 
-In this project i aim to create a website where you can get the weather info of a city' from an api and save that info (saving part will be optional of course and will require an account to do so).
-I will be using HTML-CSS for the front-end, Java Springboot for the back-end, JQuery for fething info from api, MySQL for saving infos to the database and Firebase Storage for storing user's profile images.
-I will update this readme file once I am done with the project.
+#### Roles - Admin, Guest, User, Banned
+###### A Guest user which has no account in the database
+* Guests can see and search a city's weather condition. (Forecast can only be seen up to 3 days due to my API account being free)
+###### User account which has an entry in the database with 'USER' role
+* Users can see and search a city's weather condition.
+* Users can save or delete those weather information. (Only the current day info can be saved).
+###### Admin account which has an entry in the database with 'ADMIN' role
+* Admins can see and search a city's weather condition.
+* Admins can ban or unban a user.
+* Admins can delete a user.
+###### Restricted account which has an entry in the database with 'BANNED' role
+* Banned users can no longer access to the website nor can do any operations.
+ 
+### Features - To Be Added.
+* Profile page for users where they can edit their information
+* Log page for admins to see the activity.
+* Custom Error Pages
 
-A screenshot of the home page (It's not the final version thus subject to changes)
+## How To Run The Project
+* This project uses MySQL as its database so you will need to have it installed on your PC
+* The part below of application.properties (can be found on /src/main/resources/) should be edited with an IDE or text editor to match your MySQL credentials.
+* You will also have to create the Schema from MySQL Workbench manually (In this case it should be "weatherapp").
 
-![Ekran görüntüsü 2022-07-08 205348](https://user-images.githubusercontent.com/83312431/178044953-9a21dc2a-4ba8-433c-9b4a-ce63fe693667.png)
+![image](https://user-images.githubusercontent.com/83312431/179203585-af53a397-5eba-4004-bef2-8656afc86656.png)
 
-![2022-07-09 14 40 42](https://user-images.githubusercontent.com/83312431/178104206-0be9b641-27d4-40f8-b178-311c98d43907.png)
+* Required tables will be created automatically by Hibernate/JPA Technology
+* On the first run of this project an admin account will be created automatically since there is no user on the database. The credentials are as follows: (Credentials can be changed via editing CvmakerApplication.java)
+  - Mail:     sefa@admin.com
+  - Password: 123456
 
+#### Run With IDE (e.g. IntelliJ)
+If you have created the schema you are good to go. Run the project from IDE and type http://localhost:8080/ to your browser once the application is up and running.
 
-![1](https://user-images.githubusercontent.com/83312431/178130288-8d968554-d227-4d5e-bf84-218197fb2532.png)
-![2](https://user-images.githubusercontent.com/83312431/178130289-feb47e74-e840-4581-9a3a-db6569aaba3b.png)
+## Screenshots
+![2022-07-15 13 28 15](https://user-images.githubusercontent.com/83312431/179205811-3a767aa6-672f-4ff7-8b35-e2788ce3aab2.png)
 
-![image](https://user-images.githubusercontent.com/83312431/178167755-84a91116-8396-4acd-a9c7-8489f4ee35d2.png)
+![2022-07-15 13 26 50](https://user-images.githubusercontent.com/83312431/179205624-f1cdd0ed-c424-4f9b-8247-d64ba084f66d.png)
 
-![image](https://user-images.githubusercontent.com/83312431/178305918-e639365b-0e98-45a3-8ea1-3f7917edab6b.png)
+![2022-07-15 13 27 02](https://user-images.githubusercontent.com/83312431/179205628-4e924b5a-aab7-4e30-b4e7-95dcf5eb9db0.png)
 
-![image](https://user-images.githubusercontent.com/83312431/178361360-a93e699c-9b9e-47e6-b470-bcd0d4be0692.png)
+![2022-07-15 13 28 47](https://user-images.githubusercontent.com/83312431/179205898-015eee48-058e-43a5-966e-bd5e02140f3e.png)
 
-![image](https://user-images.githubusercontent.com/83312431/178614541-364abe66-3dce-4234-ad3d-0c3aeac30c97.png)
+![2022-07-15 13 30 14](https://user-images.githubusercontent.com/83312431/179206153-59a8997a-8801-46aa-a45c-3a40c1752774.png)
+
+![2022-07-15 13 31 45](https://user-images.githubusercontent.com/83312431/179206412-77e76dbc-b7e7-4b30-a945-3fb63554766a.png)
+
