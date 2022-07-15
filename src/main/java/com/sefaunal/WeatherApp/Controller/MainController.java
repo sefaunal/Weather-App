@@ -81,4 +81,9 @@ public class MainController {
 
         return userService.createUser(user);
     }
+
+    @PostMapping("/register/checkMail")
+    public @ResponseBody Boolean checkMail(@RequestParam String userMail){
+        return userService.findByUserMail(userMail) == null;
+    }
 }

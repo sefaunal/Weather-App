@@ -1,5 +1,8 @@
 import {getStorage, ref as sRef, uploadBytesResumable, getDownloadURL} from "https://www.gstatic.com/firebasejs/9.9.0/firebase-storage.js";
 
+let confirmationCode = Math.floor(100000 + Math.random() * 900000);
+document.getElementById("validationCodeSpan").innerText = 'Confirmation Code: ' + confirmationCode;
+
 let files = []
 let reader = new FileReader();
 let temp, ext, fname = "";
@@ -101,6 +104,11 @@ function createUser(imageURL){
                     $("#registerName").val('');
                     $("#registerPassword").val('');
                     $("#registerMail").val('');
+                    $("#registerPasswordConfirm").val('');
+
+                    $("#validationCode").val('');
+                    confirmationCode = Math.floor(100000 + Math.random() * 900000);
+                    document.getElementById("validationCodeSpan").innerText = 'Confirmation Code: ' + confirmationCode;
 
                     input.value="";
                     files = []
@@ -110,7 +118,7 @@ function createUser(imageURL){
 
             }
             else if(data === false){
-                alert("Register Failed, E-mail Might Be Already In Use");
+                alert("Register Failed");
                 uploadStatus.style.display='none'
             }
         }
@@ -124,7 +132,51 @@ $("#signUpForm").submit(function (event) {
         alert("Please Select A Profile Image");
     }
     else {
-        ImageUpload().then();
+        checkConfirmation();
     }
 
 });
+
+function checkConfirmation(){
+    let validationArea = $("#validationCode").val();
+    if (validationArea == confirmationCode){
+        checkPassword();
+    }
+    else {
+        alert("Wrong Confirmation Code!");
+    }
+}
+
+function checkPassword(){
+    let password = $("#registerPassword").val();
+    let passwordConfirm = $("#registerPasswordConfirm").val();
+    if (password == passwordConfirm){
+        checkMail();
+    }
+    else {
+        alert("Passwords Does Not Match!");
+    }
+}
+
+function checkMail(){
+    let formData = new FormData();
+    formData.append('userMail', $("#registerMail").val());
+
+    $.ajax({
+        method: 'post',
+        processData: false,
+        contentType: false,
+        cache: false,
+        data: formData,
+        url: '/register/checkMail',
+        success: function (data){
+            if (data === true){
+                ImageUpload().then();
+            }
+            else {
+                alert("The E-mail is already is in use, please enter a different mail.");
+                $("#registerMail").val('');
+            }
+        }
+    });
+}
